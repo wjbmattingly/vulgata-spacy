@@ -1,0 +1,56 @@
+{
+  "lang":"vulgata",
+  "name":"pipeline",
+  "version":"0.0.1",
+  "description":"",
+  "author":"",
+  "email":"",
+  "url":"",
+  "license":"",
+  "spacy_version":">=3.4.4,<3.5.0",
+  "spacy_git_version":"77833bfef",
+  "vectors":{
+    "width":100,
+    "vectors":100000,
+    "keys":-1,
+    "name":"en_pipeline.vectors"
+  },
+  "labels":{
+    "entity_ruler":[
+      "PARTIAL_SCRIPTURE",
+      "SCRIPTURE"
+    ],
+    "ner":[
+      "PARTIAL_SCRIPTURE",
+      "QUOTE",
+      "SCRIPTURE"
+    ]
+  },
+  "pipeline":[
+    "entity_ruler",
+    "ner"
+  ],
+  "components":[
+    "entity_ruler",
+    "ner"
+  ],
+  "disabled":[
+
+  ],
+  "performance":{
+    "ents_f":0.8950093809,
+    "ents_p":0.925931677,
+    "ents_r":0.8660856935,
+    "ents_per_type":{
+      "QUOTE":{
+        "p":0.925931677,
+        "r":0.8660856935,
+        "f":0.8950093809
+      }
+    },
+    "ner_loss":1758.0607433935
+  },
+  "requirements":[
+
+  ]
+}

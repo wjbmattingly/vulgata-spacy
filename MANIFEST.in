@@ -1,0 +1,17 @@
+include vulgata_spacy/data/clem_partial.npy
+include vulgata_spacy/data/clem_vulgate.csv
+include vulgata_spacy/data/index_map_partial.json
+include vulgata_spacy/models/vulgate_pipeline/entity_ruler/cfg
+include vulgata_spacy/models/vulgate_pipeline/entity_ruler/patterns.jsonl
+include vulgata_spacy/models/vulgate_pipeline/ner/cfg
+include vulgata_spacy/models/vulgate_pipeline/ner/model
+include vulgata_spacy/models/vulgate_pipeline/ner/moves
+include vulgata_spacy/models/vulgate_pipeline/vocab/dates_only
+include vulgata_spacy/models/vulgate_pipeline/vocab/full_data
+include vulgata_spacy/models/vulgate_pipeline/vocab/lookups.bin
+include vulgata_spacy/models/vulgate_pipeline/vocab/strings.json
+include vulgata_spacy/models/vulgate_pipeline/vocab/vectors
+include vulgata_spacy/models/vulgate_pipeline/vocab/vectors.cfg
+include vulgata_spacy/models/vulgate_pipeline/config.cfg
+include vulgata_spacy/models/vulgate_pipeline/meta.json
+include vulgata_spacy/models/vulgate_pipeline/tokenizer

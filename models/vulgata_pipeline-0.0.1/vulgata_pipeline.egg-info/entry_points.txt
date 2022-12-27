@@ -1,0 +1,2 @@
+[spacy_models]
+vulgata_pipeline = vulgata_pipeline

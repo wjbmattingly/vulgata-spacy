@@ -65,7 +65,7 @@ css_data = """
 
 st.markdown(css_data, unsafe_allow_html=True)
 
-class Vulgate:
+class VulgataSpaCy:
     def __init__(self, nlp_name):
         self.nlp = spacy.load(nlp_name)
         self.sent_parser = spacy.blank("en")
