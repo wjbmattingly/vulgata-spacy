@@ -23,7 +23,7 @@ def create_annoy_index():
         for i, embedding in enumerate(doc_embeddings):
             t.add_item(i, embedding)
         t.build(400)
-        t.save("data/clem_4000_partial.ann")
+        t.save("data/clem_400_partial.ann")
 
 
 css_data = """
