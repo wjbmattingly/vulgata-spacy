@@ -68,4 +68,4 @@ streamlit run [file]
 ```
 
 ## Expected Output
-![streamlit demo](streamlit-demo.png)
+![streamlit demo](images/streamlit-demo.png)
