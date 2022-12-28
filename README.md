@@ -22,8 +22,6 @@ Both of these components flag potential or likely Scriptural quotes. But being a
 
 In addition to these issues, many quotes to Scripture in medieval texts are partial references. To overcome this, each line of Scripture was enmbedded alongside its phrase components. These were are mapped to the specific line of Scripture. To reduce false positives, a phrase must be greater than 3 words to be considered in the map.
 
-To overcome this, Vulgata SpaCy contains the entire Vulgate as raw text, cleaned text, and partial text. These were embedded with the pipeline's vectors. An annoy index was then created. The pipeline allows for users to create their own index and query it with a new text.
-
 
 # Usage
 
