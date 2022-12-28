@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as f:
     LONG_DESCRIPTION = f.read()
 
-VERSION = '0.0.2'
+VERSION = '0.0.1'
 DESCRIPTION = 'A library for finding Vulgate references in Medieval Latin texts.'
 
 setup(
