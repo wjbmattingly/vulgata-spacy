@@ -9,7 +9,10 @@ pip install vulgata-spacy
 
 # About
 
-Vulgata spaCy is a library built upon [spaCy](www.spacy.io) to automate the identification and extraction of potential Biblical quotes in medieval Latin texts. The main pipeline leverages [Bloom embeddings](https://explosion.ai/blog/bloom-embeddings) which were trained on the entire Patrologia Latina (PL) after substantial cleaning. The PL text was left unlemmatized. Unfortunately, the data licensing prevents its distribution. These bloom embeddings were loaded into a spaCy pipeline as floret embeddings. This allows for the pipeline to be quite small, while still being able to capture deep semantic and syntactic meaning.
+Vulgata spaCy is a library built upon [spaCy](www.spacy.io) to automate the identification and extraction of potential Biblical quotes in medieval Latin texts. The Vulgate version used is the Clementine version available from [The Clementine Text Project](https://vulsearch.sourceforge.net/). This was cleaned and structured into a CSV file. I would like to thank Marjorie Burghart for drawing this dataset to my attention. A future update will include the Stuttgart version and give the user the ability to switch between either version.
+
+# The Pipeline
+The main pipeline leverages [Bloom embeddings](https://explosion.ai/blog/bloom-embeddings) which were trained on the entire Patrologia Latina (PL) after substantial cleaning. The PL text was left unlemmatized. Unfortunately, the data licensing prevents its distribution. These bloom embeddings were loaded into a spaCy pipeline as floret embeddings. This allows for the pipeline to be quite small, while still being able to capture deep semantic and syntactic meaning.
 
 The pipeline contains several different components. First, the pipeline contains an EntityRuler whose patterns can identify direct quotation or partial quotation of Scripture with or without punctuation marks.
 
