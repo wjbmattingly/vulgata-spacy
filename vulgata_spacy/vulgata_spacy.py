@@ -1,4 +1,4 @@
-import streamlit as st
+# import streamlit as st
 import spacy
 from spacy.tokens import Doc, Span
 from annoy import AnnoyIndex
@@ -8,23 +8,36 @@ import string
 import os
 import json
 from pathlib import Path
-
+from distutils.sysconfig import get_python_lib
+import os
 
 Span.set_extension("fuzzy_matches", default=True, force=True)
 Span.set_extension("annoy_matches", default=True, force=True)
 Span.set_extension("scripture", default=True, force=True)
 
+
+
+BASE_DIR = None
+if os.path.isfile(get_python_lib() + "/vulgata_spacy"):
+  BASE_DIR = get_python_lib() + "/vulgata_spacy"
+else:
+  BASE_DIR = os.path.dirname(__file__)
+
+embedding_file = BASE_DIR + "/data/clem_partial.npy"
+csv_file = BASE_DIR + "/data/clem_vulgate.csv"
+map_file = BASE_DIR + "/data/index_map_partial.json"
+spacy_model = "vulgata_pipeline"
+annoy_file = "annoy_index/clem_400_partial.ann"
+
 def create_annoy_index():
-    if os.path.isfile("data/clem_400_partial.ann"):
-        pass
-    else:
-        import numpy as np
-        doc_embeddings = np.load("data/clem_partial.npy")
-        t = AnnoyIndex(100, 'angular')
-        for i, embedding in enumerate(doc_embeddings):
-            t.add_item(i, embedding)
-        t.build(400)
-        t.save("data/clem_400_partial.ann")
+    import numpy as np
+    doc_embeddings = np.load(embedding_file)
+    t = AnnoyIndex(100, 'angular')
+    for i, embedding in enumerate(doc_embeddings):
+        t.add_item(i, embedding)
+    t.build(400)
+    os.mkdir("annoy_index")
+    t.save(annoy_file)
 
 
 css_data = """
@@ -64,16 +77,21 @@ css_data = """
 </style>
 """
 
-st.markdown(css_data, unsafe_allow_html=True)
+# st.markdown(css_data, unsafe_allow_html=True)
 
 class VulgataSpaCy:
     def __init__(self):
-        self.nlp = spacy.load(Path("models/vulgate_pipeline"))
+        self.nlp = spacy.load(spacy_model)
         self.sent_parser = spacy.blank("en")
         self.sent_parser.add_pipe("sentencizer")
-        self.df = pd.read_csv("data/clem_vulgate.csv")
-        with open("data/index_map_partial.json", "r") as f:
+        self.df = pd.read_csv(csv_file)
+        with open(map_file, "r") as f:
             self.index_map = json.load(f)
+        if os.path.isfile(annoy_file):
+            pass
+        else:
+            print("Currently creating annoy index. This only needs to be done once.")
+            create_annoy_index()
 
     def create_doc(self, text):
         text = text.replace(";", ".")
@@ -88,6 +106,8 @@ class VulgataSpaCy:
 
 
     def visualize_doc(self):
+        import streamlit as st
+        st.markdown(css_data, unsafe_allow_html=True)
         def create_tooltip(doc):
             html_strings = []
             original_strings = []
@@ -113,8 +133,9 @@ class VulgataSpaCy:
 
     def annoy_matcher(self, style="ent", max_distance=.5, num_hits=1):
         t = AnnoyIndex(100, metric="angular")
-        t.load("data/clem_400_partial.ann")
+        t.load("annoy_index/clem_400_partial.ann")
         df = self.df
+        doc = self.doc
         def create_data(matches, ent):
             all_matches = []
             for match in matches:
