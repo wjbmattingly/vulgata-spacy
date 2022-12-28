@@ -3,6 +3,7 @@
 # Install
 
 ```python
+pip install vulgata-pipeline
 pip install vulgata-spacy
 ```
 
@@ -12,9 +13,11 @@ Vulgata spaCy is a library built upon [spaCy](www.spacy.io) to automate the iden
 
 The pipeline contains several different components. First, the pipeline contains an EntityRuler whose patterns can identify direct quotation or partial quotation of Scripture with or without punctuation marks.
 
-A second component is a quote detection machine learning model that is designed to identify quotes within context. Quotation marks and other indicators were removed before training so that the model would learn the features and context of Latin quotations.
+A second component is a quote detection machine learning model that is designed to identify quotes within context. Quotation marks and other indicators were removed before training so that the model would learn the features and context of Latin quotations. This model needs to see more varied training data. This will be done for 0.0.2.
 
 Both of these components flag potential or likely Scriptural quotes. But being able to detect a Scriptural reference is, however, only part of the challenge. The second step in this process is linking that quote to a specific verse of the Vulgate. This problem is not as straightforward as it might appear and is compounded in several ways. First, Latin texts do not have standard spelling (even across modern editions); second, modern Latin texts do not agree on punctuation; third, many version of the Bible circulated in the Middle Ages that did not conform to the standard Vulgate, meaning words could appear out of order or synonyms used. These variant readings are often collectively known as Vetus Latina material. Therefore, matching "in initio fect Deus terras et caelum" to Genesis 1:1 ("in principio creavit Deus terram et caelum") is not as simple as fuzzy-string matching. In order to correctly link data, semantic and syntactic meaning must be retained.
+
+In addition to these issues, many quotes to Scripture in medieval texts are partial references. To overcome this, each line of Scripture was enmbedded alongside its phrase components. These were are mapped to the specific line of Scripture. To reduce false positives, a phrase must be greater than 3 words to be considered in the map.
 
 To overcome this, Vulgata SpaCy contains the entire Vulgate as raw text, cleaned text, and partial text. These were embedded with the pipeline's vectors. An annoy index was then created. The pipeline allows for users to create their own index and query it with a new text.
 
@@ -26,8 +29,13 @@ To overcome this, Vulgata SpaCy contains the entire Vulgate as raw text, cleaned
 from vulgata_spacy import vulgata_spacy
 
 nlp = vulgata_spacy.VulgataSpaCy()
-doc = nlp.create_doc("Deus enim spiritus est. Denique: Nemo scit, inquit, quae sunt in Deo, nisi spiritus qui in ipso est (I Cor. II, 11). Legimus quidem: Quis cognovit sensum Domini, aut quis consiliarius ejus fuit (Rom. XI, 34)?")
 
+# By creating the doc, you are leveraging the QUOTE detection model and the EntityRuler
+doc = nlp.create_doc("""Deus enim spiritus est. Denique: Nemo scit, inquit, quae sunt in Deo, nisi spiritus qui in ipso est (I Cor. II, 11). Legimus quidem: Quis cognovit sensum Domini, aut quis consiliarius ejus fuit (Rom. XI, 34)?""")
+
+#The annoy_matcher can pass over the doc object at the sentence level or across
+#only the entities found from the initial pipes. The max distance is the furtherst
+# a match can be in the Annoy Index for it to be considered a match to Scripture
 doc = nlp.annoy_matcher(style="sent", max_distance=.50)
 
 for ent in doc.ents:
