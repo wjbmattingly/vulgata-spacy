@@ -59,5 +59,13 @@ nlp = vulgata_spacy.VulgataSpaCy()
 doc = nlp.create_doc("Deus enim spiritus est. Denique: Nemo scit, inquit, quae sunt in Deo, nisi spiritus qui in ipso est (I Cor. II, 11). Legimus quidem: Quis cognovit sensum Domini, aut quis consiliarius ejus fuit (Rom. XI, 34)?")
 doc = nlp.annoy_matcher(style="sent", max_distance=.50)
 nlp.visualize_doc()
+```
+
+Once created, run the following command in your CLI
 
 ```
+streamlit run [file]
+```
+
+## Expected Output
+![streamlit demo](streamlit-demo.png)
